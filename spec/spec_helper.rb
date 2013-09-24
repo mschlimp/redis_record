@@ -4,10 +4,16 @@
 # loaded once.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+APP_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '..'))
+$: << File.join(APP_ROOT, 'lib/redis_record') # so rspec knows where your file could be
+require 'redis_record' # this loads the class you want to test
+
+
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
-  config.filter_run :focus
+  #config.filter_run :focus
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing

@@ -1,7 +1,4 @@
 module RedisRecord
-  module Connection
-    class << self
-      attr_accessor :HOST, :Port
-    end
+  class Connection
   end
 end
