@@ -7,6 +7,7 @@ module RedisRecord
       port= RedisRecord::Connection::Port
       db= RedisRecord::Connection::Db
       @@connection = Redis.new(:host => host, :port => port, :db => db)
+      @@connection.Ping == "PONG"
     end
     
     def self.isConnected?
