@@ -24,16 +24,22 @@ describe RedisRecord::Connection do
   end
   
   describe '#connect' do
-    it 'should connect to a given redis db' do
+    it 'has to connect to a given redis db' do
       redis = RedisRecord::Connection.connect
       RedisRecord::Connection.isConnected?.should be_true
     end
     
-    it 'should reconnect to a given redis db' do
+    it 'has to reconnect to a given redis db' do
       redis = RedisRecord::Connection.connect
       redis.client.disconnect
       redis = RedisRecord::Connection.connect
       RedisRecord::Connection.isConnected?.should be_true
+    end
+    
+    it 'should be false to check a failed redis connection' do
+      redis = RedisRecord::Connection.connect
+      redis.client.disconnect
+      RedisRecord::Connection.isConnected?.should be_false
     end
   end
   
