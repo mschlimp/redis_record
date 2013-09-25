@@ -12,4 +12,10 @@ describe RedisRecord::Connection do
     RedisRecord::Connection::Port= port
     RedisRecord::Connection::Port.should == port
   end
+  
+  it 'must set a db for a connection' do
+    db = 0
+    RedisRecord::Connection::Db= db
+    RedisRecord::Connection::Db.should == db
+  end
 end
