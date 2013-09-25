@@ -1,6 +1,7 @@
 module RedisRecord
   class Connection
     attr_accessor :connection
+    
     def self.connect
       host= RedisRecord::Connection::Host
       port= RedisRecord::Connection::Port
@@ -9,6 +10,7 @@ module RedisRecord
     end
     
     def self.isConnected?
+      @@connection.client.connected?
     end
     
   end
