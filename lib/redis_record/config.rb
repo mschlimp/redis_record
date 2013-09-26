@@ -12,7 +12,11 @@ module RedisRecord
     end
     
     def self.isConnected?
-      @@connection.client.connected?
+      @@connection &&  @@connection.client.connected?
+    end
+    
+    def self.connection
+      @@connection
     end
     
   end

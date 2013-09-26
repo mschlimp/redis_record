@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RedisRecord::Connection do
   before(:all) do
     @host = "127.0.0.1"
-    RedisRecord::Connection::Host= @host
+    RedisRecord::Connection::Host= @host  
     @port = "6379"
     RedisRecord::Connection::Port= @port
     @db = 0
