@@ -45,8 +45,17 @@ describe RedisRecord::Base do
   end
   
   describe '#find' do
-    it 'should find a existing model' do
+    it 'should find a existing entity' do
       network= Network.find("1")
+      network.name.should == "testNetwork"
+    end
+  end
+  
+  describe 'update' do
+    it 'should update a existing model entity' do
+      network= Network.find("796720232727")
+      puts network.inspect
+      network.update({"name" => "updatedNetwork"})
     end
   end
 end

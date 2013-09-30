@@ -14,13 +14,25 @@ module RedisRecord
       if result
         model = self.new
         model.hash_of_properties= JSON.parse(result)
-        puts model.inspect
       else
-        nil
+        return nil
       end
+      model
     end
     
     def update(attributes)
+      @hash_of_properties.merge!(attributes)
+      name=  self.class
+      key= @hash_of_properties["key"]
+      value= @hash_of_properties
+      
+      RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
+      result= RedisRecord::Connection.connection.hset(name,key,value.to_json)
+      puts @hash_of_properties.inspect
+      #TODO: type of result
+      puts name
+      result
+       
     end
     
     def self.create(opts)
@@ -32,8 +44,7 @@ module RedisRecord
       value= @hash_of_properties
       
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
-      #TODO: make json from string, store json
-      result= RedisRecord::Connection.connection.hset(name,key,value.to_s)
+      result= RedisRecord::Connection.connection.hset(name,key,value.to_json)
       
       #TODO: type of result
       result
