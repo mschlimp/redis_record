@@ -43,4 +43,10 @@ describe RedisRecord::Base do
       key.to_i.should > 0
     end
   end
+  
+  describe '#find' do
+    it 'should find a existing model' do
+      network= Network.find("1")
+    end
+  end
 end

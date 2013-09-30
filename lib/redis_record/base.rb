@@ -1,3 +1,5 @@
+require 'json'
+
 module RedisRecord
   class Base
     attr_accessor :hash_of_properties
@@ -6,9 +8,19 @@ module RedisRecord
     end
     
     def self.find(key)
+      name=  self.name
+      RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
+      result= RedisRecord::Connection.connection.hget(name,key)
+      if result
+        model = self.new
+        model.hash_of_properties= JSON.parse(result)
+        puts model.inspect
+      else
+        nil
+      end
     end
     
-    def self.update
+    def update(attributes)
     end
     
     def self.create(opts)
@@ -20,14 +32,14 @@ module RedisRecord
       value= @hash_of_properties
       
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
-      RedisRecord::Connection.connection.hset(name,key,value.to_s)
+      #TODO: make json from string, store json
+      result= RedisRecord::Connection.connection.hset(name,key,value.to_s)
       
-      #check id
-      #set value if no id
-      #properties to json (hash)
+      #TODO: type of result
+      result
     end
     
-    def self.delete
+    def delete
     end
     
     def self.properties(*elems)
