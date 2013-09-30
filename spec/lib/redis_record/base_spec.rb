@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 class Network < RedisRecord::Base
-  properties :name, :format
+  properties :name, :format, :key
 end
 
 describe RedisRecord::Base do
@@ -33,7 +33,7 @@ describe RedisRecord::Base do
   
   describe '#create' do
     it 'should play arround' do
-      network= Network.create({:name => "paul"})
+      network= Network.create({:name => "paul", :key => "1234567890"})
     end
   end
   
@@ -51,11 +51,17 @@ describe RedisRecord::Base do
     end
   end
   
-  describe 'update' do
+  describe '#update' do
     it 'should update a existing model entity' do
-      network= Network.find("796720232727")
-      puts network.inspect
+      network= Network.find("1234567890")
       network.update({"name" => "updatedNetwork"})
+    end
+  end
+  
+  describe '#delete' do
+    it 'should remove a existing entity' do
+      network= Network.find("1234567890")
+      network.delete.should be_true
     end
   end
 end

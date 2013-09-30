@@ -28,19 +28,16 @@ module RedisRecord
       
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
       result= RedisRecord::Connection.connection.hset(name,key,value.to_json)
-      puts @hash_of_properties.inspect
-      #TODO: type of result
-      puts name
-      result
+      
        
     end
     
     def self.create(opts)
       @hash_of_properties= opts
-      @hash_of_properties["key"]= generate_key unless @hash_of_properties["key"]
+      @hash_of_properties[:key]= generate_key if @hash_of_properties[:key].nil?
                                          
       name=  self.name
-      key= @hash_of_properties["key"]
+      key= @hash_of_properties[:key]
       value= @hash_of_properties
       
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
@@ -51,6 +48,11 @@ module RedisRecord
     end
     
     def delete
+      name= self.class
+      key= @hash_of_properties["key"]
+      RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
+      result= RedisRecord::Connection.connection.hdel(name,key)
+      result
     end
     
     def self.properties(*elems)
