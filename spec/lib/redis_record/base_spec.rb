@@ -51,6 +51,29 @@ describe RedisRecord::Base do
     end
   end
   
+  describe '#find_all' do
+    it 'should find all entries for a key' do
+      networks= Network.find_all
+      networks.size.should > 1
+    end
+  end
+  
+  describe '#find_by_' do
+    it 'must find a Entry with the given name' do
+      name= "testNetwork"
+      result= Network.find_by_name("testNetwork")
+      result.name.should == name
+    end
+  end
+  
+  describe '#find_all_by_' do
+    it 'must find all Entries for the given attribute' do
+      name= "testNetwork"
+      results= Network.find_all_by_name("testNetwork")
+      results.size.should == 2
+    end
+  end
+  
   describe '#update' do
     it 'should update a existing model entity' do
       network= Network.find("1234567890")
