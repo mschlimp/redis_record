@@ -48,7 +48,7 @@ module RedisRecord
       
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
       result= RedisRecord::Connection.connection.hset(name,key,value.to_json)
-      
+      !result
        
     end
     
