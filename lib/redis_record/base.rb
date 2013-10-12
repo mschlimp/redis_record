@@ -43,7 +43,7 @@ module RedisRecord
     def update(attributes)
       @hash_of_properties.merge!(attributes)
       name=  self.class
-      key= @hash_of_properties["key"]
+      key= @hash_of_properties["Key"]
       value= @hash_of_properties
       
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
@@ -55,10 +55,10 @@ module RedisRecord
     #TODO: returns entitiy or nil if failed
     def self.create(opts)
       @hash_of_properties= opts
-      @hash_of_properties[:key]= generate_key if @hash_of_properties[:key].nil?
+      @hash_of_properties[:Key]= generate_key if @hash_of_properties[:Key].nil?
                                          
       name=  self.name
-      key= @hash_of_properties[:key]
+      key= @hash_of_properties[:Key]
       value= @hash_of_properties
       
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
@@ -70,7 +70,7 @@ module RedisRecord
     
     def delete
       name= self.class
-      key= @hash_of_properties["key"]
+      key= @hash_of_properties["Key"]
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
       result= RedisRecord::Connection.connection.hdel(name,key)
       result

@@ -33,7 +33,7 @@ describe RedisRecord::Base do
   
   describe '#create' do
     it 'should play arround' do
-      network= Network.create({:name => "paul", :key => "1234567890"})
+      network= Network.create({:Name => "paul", :Key => "1234567890"})
     end
   end
   
@@ -76,14 +76,16 @@ describe RedisRecord::Base do
   
   describe '#update' do
     it 'should update a existing model entity' do
-      network= Network.find("1234567890")
+      Network.create({:Name => "paul", :Key => "1234567890_for_update"})
+      network= Network.find("1234567890_for_update")
       network.update({"name" => "updatedNetwork"})
     end
   end
   
   describe '#delete' do
     it 'should remove a existing entity' do
-      network= Network.find("1234567890")
+      Network.create({:Name => "paul", :Key => "1234567890_for_delete"})
+      network= Network.find("1234567890_for_delete")
       network.delete.should be_true
     end
   end
