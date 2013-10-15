@@ -32,8 +32,13 @@ describe RedisRecord::Base do
   end
   
   describe '#create' do
-    it 'should play arround' do
+    it 'should should be true to create a entity' do
       network= Network.create({:Name => "paul", :Key => "1234567890"})
+    end
+    
+    it 'should be true to create a entity with empty key' do
+      network= Network.create({:Name => "paul", :Key => ""})
+      network.should be_true
     end
   end
   
