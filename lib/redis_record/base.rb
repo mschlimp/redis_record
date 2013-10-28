@@ -2,6 +2,7 @@ require 'json'
 
 module RedisRecord
   class Base
+    
     attr_accessor :hash_of_properties
     def initialize
       @hash_of_properties= Hash.new

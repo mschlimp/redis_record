@@ -1,6 +1,7 @@
 require "redis_record/version"
 require "redis_record/config"
 require "redis_record/base"
+require "redis_record/relation"
 require 'redis'
 
 #module RedisRecord
