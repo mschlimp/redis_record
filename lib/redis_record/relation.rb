@@ -14,5 +14,20 @@ module RedisRecord
         end
       EOD
     end
+    
+    def self.has_many(*elems)
+      elems.each do |elem|
+        name= elem.to_s
+        make_has_many_relation(name)
+      end
+    end
+    
+    def self.make_has_many_relation(name)
+      class_eval <<-EOD
+        def #{name}
+          #{name}.find_all_by_#{self.name}Key(self.Key)
+        end
+      EOD
+    end
   end
 end
