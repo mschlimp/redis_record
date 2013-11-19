@@ -3,16 +3,25 @@ module RedisRecord
     attr_accessor :connection
     
     def self.connect
-      host= RedisRecord::Connection::Host
-      port= RedisRecord::Connection::Port
-      db= RedisRecord::Connection::Db
-      @@connection = Redis.new(:host => host, :port => port, :db => db)
-      @@connection.Ping == "PONG"
+      begin
+        @@connection= nil
+        host= RedisRecord::Connection::Host
+        port= RedisRecord::Connection::Port
+        db= RedisRecord::Connection::Db
+        @@connection = Redis.new(:host => host, :port => port, :db => db)
+        @@connection.Ping == "PONG"
+      rescue
+        @@connection= nil
+      end
       @@connection
     end
     
     def self.isConnected?
-      @@connection &&  @@connection.client.connected?
+      begin
+        return @@connection &&  @@connection.client.connected? && @@connection.Ping == "PONG"
+      rescue
+        return false
+      end
     end
     
     def self.connection
