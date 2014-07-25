@@ -11,15 +11,6 @@ class Site < RedisRecord::Base
 end
 
 describe RedisRecord::Base do
-  before(:all) do
-    @host = "127.0.0.1"
-    RedisRecord::Connection::Host= @host
-    @port = "6379"
-    RedisRecord::Connection::Port= @port
-    @db = 0
-    RedisRecord::Connection::Db= @db
-    RedisRecord::Connection.connect
-  end
   
   it 'Site must have a Network' do
     network= Network.create({:Name => "paul", :Key => "1234567890"})

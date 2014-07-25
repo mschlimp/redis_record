@@ -21,3 +21,16 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 end
+
+class Network < RedisRecord::Base
+  properties :Name, :Format, :Key
+end
+
+@host = "127.0.0.1"
+RedisRecord::Connection::Host= @host
+@port = "6379"
+RedisRecord::Connection::Port= @port
+@db = 0
+RedisRecord::Connection::Db= @db
+RedisRecord::Connection.connect
+  

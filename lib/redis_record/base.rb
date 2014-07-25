@@ -56,10 +56,10 @@ module RedisRecord
     #TODO: returns entitiy or nil if failed
     def self.create(opts)
       @hash_of_properties= opts
-      @hash_of_properties[:Key]= generate_key if (@hash_of_properties[:Key].nil? || @hash_of_properties[:Key].empty?)
+      @hash_of_properties["Key"]= generate_key if (@hash_of_properties["Key"].nil? || @hash_of_properties["Key"].empty?)
                                          
       name=  self.name
-      key= @hash_of_properties[:Key]
+      key= @hash_of_properties["Key"]
       value= @hash_of_properties
       
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?

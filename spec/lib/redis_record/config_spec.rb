@@ -1,15 +1,12 @@
 require 'spec_helper'
 
 describe RedisRecord::Connection do
-  before(:all) do
+  before (:all) do
     @host = "127.0.0.1"
-    RedisRecord::Connection::Host= @host  
     @port = "6379"
-    RedisRecord::Connection::Port= @port
-    @db = 0
-    RedisRecord::Connection::Db= @db
-    
-  end
+    @db = 0  
+  end  
+  
   it 'must set a host for a connection' do
     
     RedisRecord::Connection::Host.should == @host
