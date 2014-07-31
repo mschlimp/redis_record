@@ -6,10 +6,6 @@ describe RedisRecord::Fixture do
     #code
   end
   
-  before(:all) do
-    RedisRecord::Fixture::Fixture_Path= "./spec/fixtures/"
-  end
-  
   it 'should load a fixtures yaml' do
     fixture= RedisRecord::Fixture.new
     erg = fixture.load(RedisRecord::Fixture::Fixture_Path+"network")

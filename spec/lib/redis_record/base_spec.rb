@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe RedisRecord::Base do
   
+  
   describe '#properties' do
     it 'should have a method #name and #format' do
       network= Network.new
-      network.methods.to_s.include?("Name=").should be_true
-      network.methods.to_s.include?("Format=").should be_true
+      network.methods.to_s.include?("Name=").should == true
+      network.methods.to_s.include?("Format=").should == true
     end
     
     it 'must change the value of the name property' do
@@ -20,13 +21,13 @@ describe RedisRecord::Base do
   describe '#create' do
     it 'should should be true to create a entity' do
       network= Network.create({"Name" => "paul"})
-      network.should be_true
+      network.should == true
       
     end
     
     it 'should be true to create a entity with empty key' do
       network= Network.create({"Name" => "paul", "Key" => ""})
-      network.should be_true
+      network.should == true
     end
   end
   
@@ -53,9 +54,15 @@ describe RedisRecord::Base do
   end
   
   describe '#find_by_' do
+    
+    before(:all) do
+      redis_fixture= RedisRecord::Fixture.new
+      redis_fixture.fixture "Network"
+    end
+    
     it 'must find a Entry with the given name' do
-      name= "testNetwork"
-      result= Network.find_by_Name("testNetwork")
+      name= "f_name"
+      result= Network.find_by_Name("f_name")
       result.Name.should == name
     end
   end
@@ -81,7 +88,19 @@ describe RedisRecord::Base do
     it 'should remove a existing entity' do
       Network.create({"Name" => "paul", "Key" => "1234567890_for_delete"})
       network= Network.find("1234567890_for_delete")
-      network.delete.should be_true
+      network.delete.should == 1
     end
+  end
+  
+  describe '#find_all with sort' do
+    
+    redis_fixture= RedisRecord::Fixture.new
+    redis_fixture.fixture "Network"
+    
+    it 'must find all Entries for the given attribute sort by a attribute' do
+      networks = Network.find_all({:sort => "Name dsc"})
+      networks.first.Name.should == "s_name"
+    end
+  
   end
 end

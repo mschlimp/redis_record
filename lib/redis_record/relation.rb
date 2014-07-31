@@ -25,7 +25,7 @@ module RedisRecord
     def self.make_has_many_relation(name)
       class_eval <<-EOD
         def #{name}
-          #{name}.find_all_by_#{self.name}Key(self.Key)
+          #{name}.find_all_by_#{self.name}Key(self.Key.to_s)
         end
       EOD
     end
@@ -40,7 +40,7 @@ module RedisRecord
     def self.make_has_one_relation(name)
       class_eval <<-EOD
         def #{name}
-          #{name}.find_by_#{self.name}Key(self.Key)
+          #{name}.find_by_#{self.name}Key(self.Key.to_s)
         end
       EOD
     end

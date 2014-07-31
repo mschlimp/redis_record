@@ -30,7 +30,7 @@ end
 RedisRecord::Connection::Host= @host
 @port = "6379"
 RedisRecord::Connection::Port= @port
-@db = 0
+@db = 2
 RedisRecord::Connection::Db= @db
 RedisRecord::Connection.connect
-  
+RedisRecord::Fixture::Fixture_Path= "./spec/fixtures/"  

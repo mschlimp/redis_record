@@ -21,7 +21,7 @@ module RedisRecord
       model
     end
     
-    def self.find_all
+    def self.find_all(*args)
       models = Array.new
       name=  self.name
       RedisRecord::Connection.connect unless RedisRecord::Connection.isConnected?
@@ -38,9 +38,24 @@ module RedisRecord
       else
         return nil
       end
+      if args.size > 0
+        models = redis_sort(models,args.first[:sort]) if args.first[:sort]
+      end
       models
     end
     
+    def self.redis_sort(elements,order)
+      attribute= order.split(" ").first
+      direction= order.split(" ").last
+      
+      if direction=="dsc"
+        elements.sort {|a,b| b.send(attribute) <=> a.send(attribute)}
+      else
+        elements.sort {|a,b| a.send(attribute) <=> b.send(attribute)}
+      end
+      
+      
+    end
     def update(attributes)
       @hash_of_properties.merge!(attributes)
       name=  self.class

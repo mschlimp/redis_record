@@ -4,7 +4,7 @@ describe RedisRecord::Connection do
   before (:all) do
     @host = "127.0.0.1"
     @port = "6379"
-    @db = 0  
+    @db = 2  
   end  
   
   it 'must set a host for a connection' do
@@ -23,20 +23,20 @@ describe RedisRecord::Connection do
   describe '#connect' do
     it 'has to connect to a given redis db' do
       redis = RedisRecord::Connection.connect
-      RedisRecord::Connection.isConnected?.should be_true
+      RedisRecord::Connection.isConnected?.should == true
     end
     
     it 'has to reconnect to a given redis db' do
       redis = RedisRecord::Connection.connect
       redis.client.disconnect
       redis = RedisRecord::Connection.connect
-      RedisRecord::Connection.isConnected?.should be_true
+      RedisRecord::Connection.isConnected?.should == true
     end
     
     it 'should be false to check a failed redis connection' do
       redis = RedisRecord::Connection.connect
       redis.client.disconnect
-      RedisRecord::Connection.isConnected?.should be_false
+      RedisRecord::Connection.isConnected?.should  == false
     end
   end
   
