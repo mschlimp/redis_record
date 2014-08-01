@@ -65,15 +65,28 @@ describe RedisRecord::Base do
       result= Network.find_by_Name("f_name")
       result.Name.should == name
     end
+    
   end
   
   describe '#find_all_by_' do
+    
+    before(:all) do
+      redis_fixture= RedisRecord::Fixture.new
+      redis_fixture.fixture "Network"
+    end
+    
     it 'must find all Entries for the given attribute' do
       Network.create({"Name" => "testNetwork", "Key" => "t1"})
       Network.create({"Name" => "testNetwork", "Key" => "tt1"})
       results= Network.find_all_by_Name("testNetwork")
       results.size.should == 2
     end
+    
+    it 'must return as first Entry with the given format and sort order a Network with name s_name' do
+      networks= Network.find_all_by_Format("s_format",:order => "Name asc")
+      networks.first.Name.should == "s_name"
+    end
+    
   end
   
   describe '#update' do
@@ -94,12 +107,14 @@ describe RedisRecord::Base do
   
   describe '#find_all with sort' do
     
-    redis_fixture= RedisRecord::Fixture.new
-    redis_fixture.fixture "Network"
+    before(:all) do
+      redis_fixture= RedisRecord::Fixture.new
+      redis_fixture.fixture "Network"
+    end
     
     it 'must find all Entries for the given attribute sort by a attribute' do
       networks = Network.find_all({:sort => "Name dsc"})
-      networks.first.Name.should == "s_name"
+      networks.first.Name.should == "x_name"
     end
   
   end

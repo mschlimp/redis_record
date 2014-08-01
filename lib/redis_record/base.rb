@@ -47,13 +47,13 @@ module RedisRecord
     def self.redis_sort(elements,order)
       attribute= order.split(" ").first
       direction= order.split(" ").last
-      
+      result = Array.new
       if direction=="dsc"
-        elements.sort {|a,b| b.send(attribute) <=> a.send(attribute)}
+        result= elements.sort {|a,b| b.send(attribute) <=> a.send(attribute)}
       else
-        elements.sort {|a,b| a.send(attribute) <=> b.send(attribute)}
+        result= elements.sort {|a,b| a.send(attribute) <=> b.send(attribute)}
       end
-      
+      result
       
     end
     def update(attributes)
@@ -126,11 +126,14 @@ module RedisRecord
     
     def self.make_all_selectors(name)
       class_eval <<-EOD
-        def self.find_all_by_#{name}(value)
+        def self.find_all_by_#{name}(value,*args)
           models= Array.new
           results= self.find_all
           results.each do |result|
             models << result if result.#{name}==value
+          end
+          if args.size > 0
+            models = redis_sort(models,args.first[:sort]) if args.first[:sort]
           end
           models
         end

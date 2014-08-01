@@ -21,7 +21,7 @@ describe RedisRecord::Fixture do
   it 'should update a redis hash key by a fixture' do
     redis_fixture= RedisRecord::Fixture.new
     redis_fixture.fixture "Network"
-    Network.find_all.size.should == 2
+    Network.find_all.size.should == 3
   end
   
 end
